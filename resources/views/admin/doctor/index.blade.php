@@ -47,13 +47,13 @@
                                 <td>{{$e->Ename}}</td>
                                 @endforeach
                                 <td class="row">
-                                    <a class="btn" href="{{route('establishment.show',$dcotor->id)}}"><i
+                                    <a class="btn" href="{{route('doctor.show',$dcotor->id)}}"><i
                                             class="fas fa-edit"
                                             style="color: #00f169"></i></a>
                                     |
 
                                     <form role="form" method="post"
-                                          action="{{route('establishment.destroy',$dcotor->id)}}">
+                                          action="{{route('doctor.destroy',$dcotor->id)}}">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="btn"><i class="fas fa-trash red"

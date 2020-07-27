@@ -99,7 +99,8 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        //
+        $establishments=Establishment::all();
+        return view('admin.doctor.show')->with('doctor',$doctor)->with('establishments',$establishments);
     }
 
     /**
@@ -120,9 +121,52 @@ class DoctorController extends Controller
      * @param  \App\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(Request $request, Doctor $doctor,Establishment $establishment)
     {
-        //
+//        dd($request->all());
+        $user=User::where('usertable_type','Doctor')->first();
+//        dd($user->get());
+
+        $doctor->Dfname=$request->Dfname;
+        $doctor->Dtel=$request->Dtel;
+        $doctor->Dexpertize= $request->Dexpertize;
+        $doctor->Ddiploma=$request->Ddiploma;
+        if ($request->radio1 == 'non'){
+            $this->validate($request,[
+                'Ename' => 'required','string', 'max:255',
+                'Etel' => 'required',
+                'Eadresse' => 'required',
+                'Eemail' => 'required', 'string', 'email', 'max:255',
+                'Etype' => 'required|in:Doctor office,Clinic,Hospital'
+            ]);
+
+            $establishment=Establishment::create($request->all());
+            $doctor->establishment_id=$establishment->id;
+            $doctor->establishment()->associate($establishment);
+        }else{
+            $establishment = Establishment::findOrFail($request->establishment);
+            $doctor->establishment_id=$establishment->id;
+            $doctor->establishment()->associate($establishment);
+        }
+        $doctor->save();
+
+        $this->validate($request,[
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+
+        ]);
+
+
+        $user->update([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'usertable_type'=> $request['usertable_type'],
+            'usertable_id'=> $doctor->id,
+
+        ]);
+
+        return redirect('/doctor');
     }
 
     /**
