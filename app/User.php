@@ -13,6 +13,9 @@ Relation::morphMap([
 Relation::morphMap([
     'Doctor'=>Doctor::class
 ]);
+Relation::morphMap([
+    'Patient'=>Patient::class
+]);
 
 
 class User extends Authenticatable

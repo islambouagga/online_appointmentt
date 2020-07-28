@@ -4,13 +4,22 @@
     <script>
         $(document).ready(function () {
             $("#2").hide();
+            $("#S2").hide();
             $("#hide").click(function () {
                 $("#1").hide();
                 $("#2").show();
             });
+            $("#hide1").click(function () {
+                $("#S1").hide();
+                $("#S2").show();
+            });
             $("#show").click(function () {
                 $("#1").show();
                 $("#2").hide();
+            });
+            $("#show1").click(function () {
+                $("#S1").show();
+                $("#S2").hide();
             });
         });
     </script>
@@ -166,6 +175,60 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputStatus">Specialty in our platform</label>
+                                            <div class="form-group clearfix">
+                                                <div class="form-check d-inline">
+                                                    <input id="hide1" class="form-check-input" value="non" type="radio"
+                                                           name="radioS1">
+                                                    <label class="form-check-label"> <strong>Non</strong></label>
+                                                </div>
+                                                <div class="form-check d-inline">
+                                                    <input id="show1" class="form-check-input" value="yes" type="radio"
+                                                           name="radioS1" checked>
+                                                    <label class="form-check-label"><strong>Yes</strong></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id='S1' class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Specialty</label>
+                                            <select class="select2" multiple="multiple" name="specialty[]"
+                                                    data-placeholder="Select a specialty" style="width: 100%;">
+                                                @foreach( $doctor->specialties()->get() as $specialty)
+                                                    {{$specialties->forget($specialty->id)}}
+
+                                                    <option selected value="{{$specialty->id}}"> {{$specialty->namespec}}</option>
+                                                @endforeach
+                                                @foreach($specialties as $specialty)
+                                                        <option value="{{$specialty->id}}"> {{$specialty->namespec}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id='S2' class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Specialty</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-user-tag"></i></span>
+                                                </div>
+                                                <input type="text" id="inputName" name="namespec"
+                                                       class="form-control @error('namespec') is-invalid @enderror">
+                                                @error('namespec')
+                                                <span class="invalid-feedback">
+                                       {{ $message }}
+                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputStatus">Establishment in our platform</label>

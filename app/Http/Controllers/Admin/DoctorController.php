@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Doctor;
 use App\Establishment;
 use App\Http\Controllers\Controller;
+use App\Specialty;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +43,8 @@ class DoctorController extends Controller
     public function create()
     {
         $establishments=Establishment::all();
-        return view('admin.doctor.create')->with('establishments',$establishments);
+        $specialties = Specialty::all();
+        return view('admin.doctor.create')->with('establishments',$establishments)->with('specialties',$specialties);
     }
 
     /**
@@ -54,6 +56,10 @@ class DoctorController extends Controller
     public function store(Request $request,Doctor $doctor,Establishment $establishment)
     {
 //        dd($request->all());
+//        dd($request->specialty[1]);
+
+
+
         $this->validateRequest($request);
         $doctor->Dfname=$request->Dfname;
         $doctor->Dtel=$request->Dtel;
@@ -76,8 +82,24 @@ class DoctorController extends Controller
             $doctor->establishment_id=$establishment->id;
             $doctor->establishment()->associate($establishment);
         }
-//        dd($doctor);
         $doctor->save();
+        if ($request->radioS1 == 'non'){
+            $this->validate($request,[
+                'namespec' => 'required','string', 'max:255',
+            ]);
+            $specialty=Specialty::create($request->all());
+            $doctor->specialties()->save($specialty);
+            $establishment->specialties()->save($specialty);
+        }else{
+            foreach ($request->specialty as $s){
+                $sp =  Specialty::find($s);
+                $choices[]=$sp;
+            }
+            $doctor->specialties()->saveMany($choices);
+            $establishment->specialties()->saveMany($choices);
+        }
+//        dd($doctor);
+
         $user =  User::create([
             'name' => $request['name'],
             'email' => $request['email'],
@@ -100,7 +122,8 @@ class DoctorController extends Controller
     public function show(Doctor $doctor)
     {
         $establishments=Establishment::all();
-        return view('admin.doctor.show')->with('doctor',$doctor)->with('establishments',$establishments);
+        $specialties = Specialty::all();
+        return view('admin.doctor.show')->with('doctor',$doctor)->with('establishments',$establishments)->with('specialties',$specialties);
     }
 
     /**
@@ -149,7 +172,21 @@ class DoctorController extends Controller
             $doctor->establishment()->associate($establishment);
         }
         $doctor->save();
-
+        if ($request->radioS1 == 'non'){
+            $this->validate($request,[
+                'namespec' => 'required','string', 'max:255',
+            ]);
+            $specialty=Specialty::create($request->all());
+            $doctor->specialties()->save($specialty);
+            $establishment->specialties()->save($specialty);
+        }else{
+            foreach ($request->specialty as $s){
+                $sp =  Specialty::find($s);
+                $choices[]=$sp;
+            }
+            $doctor->specialties()->saveMany($choices);
+            $establishment->specialties()->saveMany($choices);
+        }
         $this->validate($request,[
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,

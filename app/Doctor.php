@@ -22,4 +22,12 @@ class Doctor extends Model
     public function establishment(){
         return $this->belongsTo(Establishment::class);
     }
+
+    public function specialties(){
+        return $this->belongsToMany(Specialty::class,'doctor_specialty');
+    }
+
+    public function patients(){
+        return $this->belongsToMany(Patient::class,'doctor_patient');
+    }
 }

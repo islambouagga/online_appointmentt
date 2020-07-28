@@ -171,13 +171,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link ">
+                                <a href="{{route('patient.index')}}" class="nav-link ">
                                     <i class="fas fa-users nav-icon"></i>
                                     <p>List of Patient </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('patient.create')}}" class="nav-link">
                                     <i class="fas fa-user-plus nav-icon"></i>
                                     <p>Create Patient</p>
                                 </a>

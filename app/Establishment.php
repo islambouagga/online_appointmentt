@@ -19,5 +19,10 @@ class Establishment extends Model
     public function doctors(){
         return $this->hasMany(Doctor::class);
     }
-
+    public function specialties(){
+        return $this->belongsToMany(Specialty::class,'establishment_specialty');
+    }
+    public function patients(){
+        return $this->belongsToMany(Patient::class,'establishment_patient');
+    }
 }
