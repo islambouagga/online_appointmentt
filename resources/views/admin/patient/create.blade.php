@@ -114,6 +114,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <input type="hidden" name="approved" value="approved">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Birthday</label>
@@ -172,7 +173,7 @@
                 <div class="row">
                     <div class="col-12">
                         <a href="#" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Create new Doctor" class="btn btn-success float-right">
+                        <input type="submit" value="Create new Patient " class="btn btn-success float-right">
                     </div>
                 </div>
             </div>

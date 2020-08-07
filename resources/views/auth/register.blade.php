@@ -54,6 +54,7 @@
                         </div>
                         <input  type="hidden"  name="usertable_type" value="Admin" >
                         <input  type="hidden"  name="usertable_id" >
+                        <input  type="hidden"  name="approved" value="approved" >
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 

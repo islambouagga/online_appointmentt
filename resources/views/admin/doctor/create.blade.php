@@ -43,7 +43,7 @@
             <img src="{{asset('svg/medicine_b1ol.svg')}}" width="500" height="400">
         </div>
     </div>
-    <form role="form" method="post" action="{{route('admin.doctor.store')}} ">
+    <form role="form" method="post" action="{{route('doctor.store')}} ">
         @csrf
         <div class="row  h-100 justify-content-center align-items-center">
             <div class="col-12">
@@ -79,6 +79,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="approved" value="approved">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="inputName">Family Name</label>

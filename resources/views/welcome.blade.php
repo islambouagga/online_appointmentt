@@ -16,7 +16,7 @@
                                 elit sed do eiusmod tempor incididunt ut labore et dolore
                                 magna aliqua. Quis ipsum suspendisse ultrices gravida.Risus cmodo viverra </p>
                             @guest()
-                            <a href="#" class="btn_2">Make an appointment</a>
+                            <a href="{{route('bedoctor')}}" class="btn_2">Become Doctor with us</a>
                             @endguest
                         </div>
                     </div>

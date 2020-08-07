@@ -33,6 +33,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Telephone</th>
+                            <th>statu</th>
                             <th>Establishment</th>
                             <th>Edit</th>
                         </tr>
@@ -44,10 +45,27 @@
                                 <td>{{$user->name}} {{$dcotor->Dfname}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$dcotor->Dtel}}</td>
+
+
+                                <td>
+                                                        <span class="badge @if($user->approved == "approved") badge-success
+
+                                                          @elseif($user->approved == "request") badge-warning
+                                       @endif ">{{$user->approved}}</span>
+                                </td>
                                 @foreach($dcotor->establishment()->get() as $e)
                                 <td>{{$e->Ename}}</td>
                                 @endforeach
                                 <td class="row">
+                                    <form role="form" method="post"
+                                          action="{{route('doctor.update',$dcotor->id)}}">
+                                        @method('PATCH')
+                                        @csrf
+                                        <input type="hidden" name="approved" value="approved">
+                                        <button type="submit" class="btn"><i class="fas fa-check red"
+                                                                             style="color: green"></i></button>
+                                    </form>
+                                    |
                                     <a class="btn" href="{{route('doctor.show',$dcotor->id)}}"><i
                                             class="fas fa-edit"
                                             style="color: #00f169"></i></a>

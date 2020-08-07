@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -33,8 +34,10 @@ class LoginController extends Controller
     public function redirectPath()
     {
         if (Auth::user()->usertable_type == "Admin"){
-           return '/home';
+           return '/dashbord';
 //            dd($this->redirectTo);
+        }elseif(Auth::user()->usertable_type == "Patient"){
+            return  $this->redirectTo;
         }
     }
 

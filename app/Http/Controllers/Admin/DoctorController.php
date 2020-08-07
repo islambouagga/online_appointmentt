@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class DoctorController extends Controller
 {
@@ -22,7 +23,7 @@ class DoctorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['bedoctor','store']);
     }
 
     /**
@@ -65,7 +66,7 @@ class DoctorController extends Controller
      */
     public function store(Request $request, Doctor $doctor, Establishment $establishment)
     {
-        $this->authorize('isAdminOrAuthor');
+
 //        dd($request->all());
         $this->validateRequest($request);
         $doctor->Dfname = $request->Dfname;
@@ -130,8 +131,16 @@ class DoctorController extends Controller
             'password' => Hash::make($request['password']),
             'usertable_type' => $request['usertable_type'],
             'usertable_id' => $doctor->id,
+            'approved' =>  $request['approved'],
         ]);
-        return redirect('/admin/doctor');
+        if (Auth::check()) {
+            return redirect('/doctor');
+        }
+
+        else {
+            return view('welcome');
+        }
+
     }
 
     /**
@@ -172,63 +181,69 @@ class DoctorController extends Controller
 //        dd($request->all());
         $user = User::where('usertable_type', 'Doctor')->first();
 //        dd($user->get());
-
-        $doctor->Dfname = $request->Dfname;
-        $doctor->Dtel = $request->Dtel;
-        $doctor->Dexpertize = $request->Dexpertize;
-        $doctor->Ddiploma = $request->Ddiploma;
-        if ($request->radio1 == 'non') {
-            $this->validate($request, [
-                'Ename' => 'required', 'string', 'max:255',
-                'Etel' => 'required',
-                'Eadresse' => 'required',
-                'Eemail' => 'required', 'string', 'email', 'max:255',
-                'Etype' => 'required|in:Doctor office,Clinic,Hospital'
-            ]);
-
-            $establishment = Establishment::create($request->all());
-            $doctor->Padresse=$establishment->Eadresse;
-            $doctor->establishment_id = $establishment->id;
-            $doctor->establishment()->associate($establishment);
-        } else {
-            $establishment = Establishment::findOrFail($request->establishment);
-            $doctor->Padresse=$establishment->Eadresse;
-            $doctor->establishment_id = $establishment->id;
-            $doctor->establishment()->associate($establishment);
-        }
-        $doctor->save();
-        if ($request->radioS1 == 'non') {
-            $this->validate($request, [
-                'namespec' => 'required', 'string', 'max:255',
-            ]);
-            $specialty = Specialty::create($request->all());
-            $doctor->specialties()->save($specialty);
-            $establishment->specialties()->save($specialty);
-        } else {
-            foreach ($request->specialty as $s) {
-                $sp = Specialty::find($s);
-                $choices[] = $sp;
-            }
-            $doctor->specialties()->saveMany($choices);
-            $establishment->specialties()->saveMany($choices);
-        }
+if (!in_array("approved",$request->all())){
+    dd('in if');
+    $doctor->Dfname = $request->Dfname;
+    $doctor->Dtel = $request->Dtel;
+    $doctor->Dexpertize = $request->Dexpertize;
+    $doctor->Ddiploma = $request->Ddiploma;
+    if ($request->radio1 == 'non') {
         $this->validate($request, [
-            'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users,email,' . $user->id,
-
+            'Ename' => 'required', 'string', 'max:255',
+            'Etel' => 'required',
+            'Eadresse' => 'required',
+            'Eemail' => 'required', 'string', 'email', 'max:255',
+            'Etype' => 'required|in:Doctor office,Clinic,Hospital'
         ]);
 
-
-        $user->update([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'usertable_type' => $request['usertable_type'],
-            'usertable_id' => $doctor->id,
-
+        $establishment = Establishment::create($request->all());
+        $doctor->Padresse=$establishment->Eadresse;
+        $doctor->establishment_id = $establishment->id;
+        $doctor->establishment()->associate($establishment);
+    } else {
+        $establishment = Establishment::findOrFail($request->establishment);
+        $doctor->Padresse=$establishment->Eadresse;
+        $doctor->establishment_id = $establishment->id;
+        $doctor->establishment()->associate($establishment);
+    }
+    $doctor->save();
+    if ($request->radioS1 == 'non') {
+        $this->validate($request, [
+            'namespec' => 'required', 'string', 'max:255',
         ]);
+        $specialty = Specialty::create($request->all());
+        $doctor->specialties()->save($specialty);
+        $establishment->specialties()->save($specialty);
+    } else {
+        foreach ($request->specialty as $s) {
+            $sp = Specialty::find($s);
+            $choices[] = $sp;
+        }
+        $doctor->specialties()->saveMany($choices);
+        $establishment->specialties()->saveMany($choices);
+    }
+    $this->validate($request, [
+        'name' => 'required|string|max:191',
+        'email' => 'required|string|email|max:191|unique:users,email,' . $user->id,
 
-        return redirect('/admin/doctor');
+    ]);
+
+
+    $user->update([
+        'name' => $request['name'],
+        'email' => $request['email'],
+        'password' => Hash::make($request['password']),
+        'usertable_type' => $request['usertable_type'],
+        'usertable_id' => $doctor->id,
+
+    ]);
+}else{
+    $user->approved=$request->approved;
+    $user->save();
+}
+
+
+        return redirect('/doctor');
     }
 
     /**
@@ -240,7 +255,38 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         $this->authorize('isAdmin');
-        //
+
+        $specialty = $doctor->specialty()->first();
+        $appointments= $doctor->appointments()->get();
+      $establishment=  $doctor->establishment()->first();
+
+        $doctor->establishment()->dissociate();
+
+        if (count($appointments) != 0 ){
+            foreach ($appointments as $appointment){
+                $appointment->patient()->dissociate();
+                $appointment->doctor()->dissociate();
+                $appointment->delete();
+            }
+        }
+        $doctor->specialty()->dissociate();
+        foreach ($doctor->days as $day){
+
+            echo $day->day;
+            $day->doctor()->dissociate();
+            $day->delete();
+        }
+//        dd(count($doctor->days));
+        $doctor->delete();
+        if (count($specialty->doctors) == 0 ){
+          foreach ($specialty->establishment as $item){
+              $item->specialties()->detach($specialty->id);
+          }
+          $specialty->delete();
+        }
+
+        return  redirect('/doctor');
+
     }
 
     public function validateRequest($request)
@@ -299,5 +345,23 @@ class DoctorController extends Controller
 
             echo json_encode($data);
         }
+    }
+
+
+    public function bedoctor(){
+        $establishments = Establishment::all();
+        $specialties = Specialty::all();
+        return view('admin.doctor.bedoctor')->with('establishments', $establishments)->with('specialties', $specialties);
+    }
+public $rater ;
+public  $rate;
+    public function rateDoc(Doctor $doctor, Request $request){
+//dd((int) $request->ratee);
+
+        $this->rater ++;
+        $this->rate = $this->rate + (int) $request->ratee;
+        $doctor->rate= $this->rate / $this->rater;
+        $doctor->save();
+        return Redirect::back();
     }
 }

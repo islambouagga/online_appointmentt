@@ -13,23 +13,40 @@ use Illuminate\Support\Facades\Hash;
 class PatientController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+//        dd(Auth::user()->usertable_type);
         $this->authorize('isAdminOrAuthor');
         $patients=Patient::all();
-        $doctor  = Doctor::findOrFail(Auth::user()->usertable_id);
+//
 //        dd($doctor->patients);
-        if (Auth::user()->usertable_type == 'Admin') {
-            return view('admin.patient.index')->with('patients',$patients);
+        if (Auth::check()){
+//            dd('od');
+            if (Auth::user()->usertable_type == 'Admin') {
+//                dd('in if');
+                return view('admin.patient.index')->with('patients',$patients);
+            }
+            elseif (Auth::user()->usertable_type == 'Doctor') {
+                $doctor  = Doctor::findOrFail(Auth::user()->usertable_id);
+//                dd('in else');
+                return view('admin.patient.index')->with('patients',$doctor->patients);
+            }
         }
 
-        elseif (Auth::user()->usertable_type == 'Doctor') {
-            return view('admin.patient.index')->with('patients',$doctor->patients);
-        }
 
     }
 
@@ -65,6 +82,7 @@ class PatientController extends Controller
             'password' => Hash::make($request['password']),
             'usertable_type'=> $request['usertable_type'],
             'usertable_id'=> $patient->id,
+            'approved' =>  $request['approved'],
 
         ]);
         return redirect('/patient');
@@ -116,7 +134,19 @@ class PatientController extends Controller
     public function destroy(Patient $patient)
     {
         $this->authorize('isAdminOrAuthor');
-        //
+        foreach ($patient->establishment as $item){
+            $item->patients()->detach($patient->id);
+        }
+        foreach ($patient->doctors as $doctor){
+            $doctor->patients()->detach($patient->id);
+        }
+        foreach ($patient->appointments() as $item) {
+            $item->patient()->dissociate();
+            $item->doctor()->dissociate();
+            $item->delete();
+        }
+        $patient->delete();
+        return  redirect('/patient');
     }
 
     public function validateRequest($request)

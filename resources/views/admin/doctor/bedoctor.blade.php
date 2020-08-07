@@ -1,65 +1,18 @@
-@extends('layouts.matser')
+@extends('layouts.theme')
 
 @section('content')
-    <script>
-        $(document).ready(function () {
-            $("#2").hide();
-            $("#S2").hide();
-            $("#hide").click(function () {
-                $("#1").hide();
-                $("#2").show();
-            });
-            $("#hide1").click(function () {
-                $("#S1").hide();
-                $("#S2").show();
-            });
-            $("#show").click(function () {
-                $("#1").show();
-                $("#2").hide();
-            });
-            $("#show1").click(function () {
-                $("#S1").show();
-                $("#S2").hide();
-            });
-        });
-    </script>
-    <div class="row  h-100 justify-content-center align-items-center">
-        <div class="col-md-6">
-            <h1>Edit Doctor page</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqu
-                a. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                occaecat cupidatat non proident, sunt in culpa qui o
-                fficia deserunt* mollit anim id est laborum.
-            </p>
 
+    <section class="content">
+{{--        <div class="container">--}}
+            <div class="container-fluid">
 
-        </div>
-        <div class="col-md-6">
-            <img src="{{asset('svg/personal_info_0okl.svg')}}" width="500" height="400">
-        </div>
-    </div>
-    <form role="form" method="post" action="{{route('doctor.update',$doctor->id)}} ">
-        {{method_field('PATCH')}}
-        {{csrf_field()}}
+    <form role="form" method="post" action="{{route('doctor.store')}} ">
+        @csrf
         <div class="row  h-100 justify-content-center align-items-center">
             <div class="col-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card card-primary">
-                            <div class="card-header" style="background-color: white">
-                                <h3 class="card-title" style="color: black">Doctor information</h3>
 
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                            data-toggle="tooltip" title="Collapse">
-                                        <i class="fas fa-minus"></i></button>
-                                </div>
-                            </div>
-                            <div class="card-body ">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -67,13 +20,10 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i
-                                                            class="fas fa-hospital"></i></span>
+                                                            class="fas fa-user-md"></i></span>
                                                 </div>
-                                                @foreach($doctor->users as $user)
-                                                    <input type="text" value="{{$user->name}}" id="inputName"
-                                                           name="name"
-                                                           class="form-control @error('name') is-invalid @enderror">
-                                                @endforeach
+                                                <input type="text" id="inputName" name="name"
+                                                       class="form-control @error('name') is-invalid @enderror">
                                                 @error('name')
                                                 <span class="invalid-feedback">
                                        {{ $message }}
@@ -88,10 +38,9 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i
-                                                            class="fas fa-hospital"></i></span>
+                                                            class="fas fa-user-md"></i></span>
                                                 </div>
-                                                <input type="text" value="{{$doctor->Dfname}}" id="inputName"
-                                                       name="Dfname"
+                                                <input type="text" id="inputName" name="Dfname"
                                                        class="form-control @error('Dfname') is-invalid @enderror">
                                                 @error('Dfname')
                                                 <span class="invalid-feedback">
@@ -101,8 +50,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="usertable_type" value="Doctor">
-                                    <input type="hidden" name="usertable_id">
+                                    <input  type="hidden"  name="usertable_type" value="Doctor" >
+                                    <input  type="hidden"  name="usertable_id" >
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Telephone</label>
@@ -111,7 +60,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                                 </div>
-                                                <input type="text" value="{{$doctor->Dtel}}" name="Dtel"
+                                                <input type="text" name="Dtel"
                                                        class="form-control @error('Dtel') is-invalid @enderror"
                                                        data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']"
                                                        data-mask>
@@ -127,15 +76,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Expertize</label>
-                                            <textarea class="form-control" name="Dexpertize" rows="3"
-                                                      placeholder="Enter ...">{{$doctor->Dexpertize}}</textarea>
+                                            <textarea class="form-control" name="Dexpertize" rows="3" placeholder="Enter ..."></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Diploma</label>
-                                            <textarea class="form-control" name="Ddiploma" rows="3"
-                                                      placeholder="Enter ...">{{$doctor->Ddiploma}}</textarea>
+                                            <textarea class="form-control" name="Ddiploma" rows="3" placeholder="Enter ..."></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -145,11 +92,8 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-at"></i></span>
                                                 </div>
-                                                @foreach($doctor->users as $user)
-                                                    <input type="email" value="{{$user->email}}" id="inputName"
-                                                           name="email"
-                                                           class="form-control @error('email') is-invalid @enderror   ">
-                                                @endforeach
+                                                <input type="email" id="inputName" name="email"
+                                                       class="form-control @error('email') is-invalid @enderror   ">
                                                 @error('email')
                                                 <span class="invalid-feedback">
                                        {{ $message }}
@@ -163,7 +107,7 @@
                                             <label for="inputName">Password</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                                    <span class="input-group-text"><i class="fas fa-user-secret"></i></span>
                                                 </div>
                                                 <input type="password" id="inputName" name="password"
                                                        class="form-control @error('password') is-invalid @enderror   ">
@@ -175,19 +119,16 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputStatus">Specialty in our platform</label>
                                             <div class="form-group clearfix">
                                                 <div class="form-check d-inline">
-                                                    <input id="hide1" class="form-check-input" value="non" type="radio"
-                                                           name="radioS1">
+                                                    <input id="hide1" class="form-check-input" value="non" type="radio" name="radioS1">
                                                     <label class="form-check-label"> <strong>Non</strong></label>
                                                 </div>
                                                 <div class="form-check d-inline">
-                                                    <input id="show1" class="form-check-input" value="yes" type="radio"
-                                                           name="radioS1" checked>
+                                                    <input id="show1" class="form-check-input" value="yes" type="radio" name="radioS1" checked>
                                                     <label class="form-check-label"><strong>Yes</strong></label>
                                                 </div>
 
@@ -197,15 +138,9 @@
                                     <div id='S1' class="col-md-6">
                                         <div class="form-group">
                                             <label>Specialty</label>
-                                            <select class="select2"  name="specialty[]"
-                                                    data-placeholder="Select a specialty" style="width: 100%;">
-                                                @foreach( $doctor->specialty()->get() as $specialty)
-                                                    {{$specialties->forget($specialty->id)}}
-
-                                                    <option selected value="{{$specialty->id}}"> {{$specialty->namespec}}</option>
-                                                @endforeach
-                                                @foreach($specialties as $specialty)
-                                                        <option value="{{$specialty->id}}"> {{$specialty->namespec}}</option>
+                                            <select class="form-control select2"  name="specialty" data-placeholder="Select a specialty" style="width: 100%;">
+                                                @foreach( $specialties as $specialty)
+                                                    <option value="{{$specialty->id}}"> {{$specialty->namespec}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -228,19 +163,63 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputName">Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-dollar-sign"></i></span>
+                                                </div>
+                                                <input type="number"  name="price"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Days</label>
+                                            <select class="select2" multiple="multiple" name="days[]"  style="width: 100%;">
+                                                <option selected >Sunday</option>
+                                                <option selected>Monday</option>
+                                                <option selected>Tuesday</option>
+                                                <option selected>Wednesday</option>
+                                                <option selected>Thursday</option>
+                                                <option>Friday</option>
+                                                <option>Saturday</option>
+                                            </select>
 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="inputName">Morning Work Times</label>
+                                        <div class="input-group">
+
+                                            <input type="time"  name="MWTStart"
+                                                   class="form-control" value="08:00">
+                                            <input type="time"  name="MWTEnd"
+                                                   class="form-control" value="12:00">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="inputName">Evening Work Times</label>
+                                        <div class="input-group">
+                                            <input type="time"  name="EWTStart"
+                                                   class="form-control" value="14:00">
+                                            <input type="time"  name="EWTEnd"
+                                                   class="form-control" value="17:00">
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputStatus">Establishment in our platform</label>
                                             <div class="form-group clearfix">
                                                 <div class="form-check d-inline">
-                                                    <input id="hide" class="form-check-input" value="non" type="radio"
-                                                           name="radio1">
+                                                    <input id="hide" class="form-check-input" value="non" type="radio" name="radio1">
                                                     <label class="form-check-label"> <strong>Non</strong></label>
                                                 </div>
                                                 <div class="form-check d-inline">
-                                                    <input id="show" class="form-check-input" value="yes" type="radio"
-                                                           name="radio1" checked>
+                                                    <input id="show" class="form-check-input" value="yes" type="radio" name="radio1" checked>
                                                     <label class="form-check-label"><strong>Yes</strong></label>
                                                 </div>
 
@@ -250,43 +229,23 @@
                                     <div id='1' class="col-md-6">
                                         <div class="form-group">
                                             <label>Establishment</label>
-                                            <select class="form-control select2" name="establishment"
-                                                    style="width: 100%;">
-                                                @foreach($doctor->establishment()->get() as $e)
-                                                    <option selected value="{{$e->id}}">{{$e->Ename}}</option>
-
-                                                    @foreach($establishments as $establishment)
-                                                        @if($establishment->Ename != $e->Ename )
-                                                            <option
-                                                                value="{{$establishment->id}}"> {{$establishment->Ename}}</option>
-                                                        @endif
-                                                    @endforeach
+                                            <select class="form-control select2" name="establishment" style="width: 100%;">
+                                                <option selected disabled>Select one</option>
+                                                @foreach($establishments as $establishment)
+                                                    <option value="{{$establishment->id}}"> {{$establishment->Ename}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
 
                                 </div>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
+
 
                     </div>
                 </div>
                 <div id='2'>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Establishment information</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                data-toggle="tooltip" title="Collapse">
-                                            <i class="fas fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="inputName">Establishment Name</label>
                                         <div class="input-group">
@@ -351,20 +310,8 @@
                                     </span>
                                         @enderror
                                     </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <div class="card card-primary">
-                                <div class="card-header" style="background-color: #385399">
-                                    <h3 class="card-title">Establishment Contact Information</h3>
 
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                data-toggle="tooltip" title="Collapse">
-                                            <i class="fas fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
+
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -400,29 +347,16 @@
                                             <input type="email" id="inputName" name="contactemail" class="form-control">
                                         </div>
                                     </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
+<input type="hidden" name="approved" value="request">
                             <!-- /.card -->
                         </div>
                         <div class="col-md-6">
-                            <div class="card card-secondary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Establishment Location</h3>
 
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                data-toggle="tooltip" title="Collapse">
-                                            <i class="fas fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="inputEstimatedBudget">Establishment Address</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i
-                                                        class="fas fa-map-marker-alt"></i></span>
+                                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                             </div>
                                             <input type="text" id="inputEstimatedBudget" name="Eadresse"
                                                    class="form-control @error('Eadresse') is-invalid @enderror">
@@ -438,20 +372,104 @@
                                     <div id="map"></div>
 
 
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <a href="#" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Edit Doctor" class="btn btn-success float-right">
+                        <a href="/" class="btn btn-secondary">Cancel</a>
+                        <input type="submit" value="Submit" class="btn_2 d-none d-lg-block float-right">
                     </div>
                 </div>
             </div>
         </div>
     </form>
+            </div>
+{{--        </div>--}}
+    </section>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+            //Money Euro
+            $('[data-mask]').inputmask()
+
+            //Date range picker
+            $('#reservationdate').datetimepicker({
+                format: 'L'
+            });
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
+                }
+            })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker(
+                {
+                    ranges   : {
+                        'Today'       : [moment(), moment()],
+                        'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate  : moment()
+                },
+                function (start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+
+            //Timepicker
+            $('#timepicker').datetimepicker({
+                format: 'LT'
+            })
+
+            //Bootstrap Duallistbox
+            $('.duallistbox').bootstrapDualListbox()
+
+            //Colorpicker
+            $('.my-colorpicker1').colorpicker()
+            //color picker with addon
+            $('.my-colorpicker2').colorpicker()
+
+            $('.my-colorpicker2').on('colorpickerChange', function(event) {
+                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            });
+
+            $("input[data-bootstrap-switch]").each(function(){
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            });
+
+        })
+    </script>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+            var uluru = {lat: -25.344, lng: 131.036};
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 4, center: uluru});
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({position: uluru, map: map});
+        }
+    </script>
 @endsection

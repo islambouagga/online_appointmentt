@@ -8,7 +8,7 @@
             <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Doctor's List</h3>
+                    <h3 class="card-title">Appointment's List</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -27,7 +27,9 @@
                                 <tr>
                                     <td>{{$appointment->start}} </td>
                                     @foreach($appointment->doctor()->get() as $doc)
-                                    <td>{{$doc->Dfname}}</td>
+                                        @foreach($doc->users as $user)
+                                    <td>{{$doc->Dfname}} {{$user->name}}</td>
+                                        @endforeach
                                     @endforeach
                                     <td>          <span class="badge @if($appointment->statu == "approved") badge-success
 
@@ -35,7 +37,7 @@
                                         @elseif($appointment->statu == "cancel") badge-danger
 
                                             @elseif($appointment->statu == "changed") badge-info @endif ">{{$appointment->statu}}</span></td>
-                                    <td class="row">
+                                    <td>
                                         <form role="form" method="post"
                                               action="{{route('appointment.destroy',$appointment->id)}}">
                                             @method('DELETE')

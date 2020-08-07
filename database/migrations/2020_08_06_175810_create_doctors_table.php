@@ -25,6 +25,7 @@ class CreateDoctorsTable extends Migration
             $table->time('EWTEnd');
             $table->text('Dexpertize');
             $table->text('Ddiploma');
+            $table->integer('rate')->default(0);
             $table->unsignedBigInteger('establishment_id')->nullable();
             $table->foreign('establishment_id')->references('id')->on('establishments');
             $table->unsignedBigInteger('specialty_id');

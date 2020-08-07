@@ -104,7 +104,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
                 </ul>
-
+                <div style="position: absolute;right: 81px;">
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }} <i class="fas fa-sign-out-alt" ></i></a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
                 <!-- SEARCH FORM -->
             </div>
 

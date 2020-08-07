@@ -32,6 +32,8 @@ Route::get('/dashbord', 'HomeController@index')->name('home');
 
 Route::resource('/establishment', 'Admin\EstablishmentController');
 Route::resource('/doctor', 'Admin\DoctorController');
+Route::get('/bedoctor','Admin\DoctorController@bedoctor')->name('bedoctor');
+Route::patch('rateDoc/{doctor}','Admin\DoctorController@rateDoc')->name('rateDoc');
 Route::resource('/patient', 'Admin\PatientController');
 Route::resource('/appointment', 'Admin\AppointmentController');
 Route::get('/getappointments/{id}','Admin\AppointmentController@getappointments');

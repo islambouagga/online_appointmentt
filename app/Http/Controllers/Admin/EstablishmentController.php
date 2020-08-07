@@ -107,7 +107,37 @@ class EstablishmentController extends Controller
      */
     public function destroy(Establishment $establishment)
     {
-        //
+        foreach ($establishment->doctors as $doctor){
+            $specialty = $doctor->specialty()->first();
+            $appointments= $doctor->appointments()->get();
+            $doctor->establishment()->dissociate();
+            if (count($appointments) != 0 ){
+                foreach ($appointments as $appointment){
+                    $appointment->patient()->dissociate();
+                    $appointment->doctor()->dissociate();
+                    $appointment->delete();
+                }
+            }
+            $doctor->specialty()->dissociate();
+            foreach ($doctor->days as $day){
+
+                $day->doctor()->dissociate();
+                $day->delete();
+            }
+            $doctor->delete();
+            if (count($specialty->doctors) == 0 ){
+                foreach ($specialty->establishment as $item){
+                    $item->specialties()->detach($specialty->id);
+                }
+                $specialty->delete();
+            }
+            $establishment->specialties()->detach($specialty->id);
+        }
+        foreach ($establishment->patients as $patient){
+            $establishment->patients()->detach($patient->id);
+        }
+        $establishment->delete();
+        return  redirect('/establishment');
     }
 
     public function validateRequest($request)
