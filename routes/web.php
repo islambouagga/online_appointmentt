@@ -1,5 +1,6 @@
 <?php
 
+use App\Doctor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,15 +14,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+//Route::get('/doctors', function () use ($dcotors) {
+//    return view('doctors')->with('dcotors',$dcotors);
+//})->name('doctors');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashbord', 'HomeController@index')->name('home');
 
 
-Route::resource('/establishment','Admin\EstablishmentController');
-Route::resource('/doctor','Admin\DoctorController');
-Route::resource('/patient','Admin\PatientController');
+Route::resource('/establishment', 'Admin\EstablishmentController');
+Route::resource('/doctor', 'Admin\DoctorController');
+Route::resource('/patient', 'Admin\PatientController');
+Route::resource('/appointment', 'Admin\AppointmentController');
+Route::get('/getappointments/{id}','Admin\AppointmentController@getappointments');
+Route::post('/postappointment','Admin\AppointmentController@postappointment');
+Route::get('/appointment/getdays/{id}/{day}','Admin\AppointmentController@getdays');
+
+Route::get('myappointment','Admin\AppointmentController@myappointment');

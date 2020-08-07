@@ -10,7 +10,7 @@ class Specialty extends Model
         'namespec'
     ];
     public function doctors(){
-        return $this->belongsToMany(Doctor::class,'doctor_specialty');
+        return $this->hasMany(Doctor::class);
     }
 
     public function establishment(){

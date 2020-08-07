@@ -12,7 +12,7 @@ class Doctor extends Model
      * @var array
      */
     protected $fillable = [
-        'Dfname', 'Dtel', 'Dexpertize','Ddiploma'
+        'Dfname', 'Dtel', 'Padresse','Dexpertize','Ddiploma'
     ];
 
     public function users(){
@@ -23,11 +23,19 @@ class Doctor extends Model
         return $this->belongsTo(Establishment::class);
     }
 
-    public function specialties(){
-        return $this->belongsToMany(Specialty::class,'doctor_specialty');
+    public function specialty(){
+        return $this->belongsTo(Specialty::class);
     }
 
     public function patients(){
         return $this->belongsToMany(Patient::class,'doctor_patient');
+    }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function days(){
+        return $this->hasMany(Day::class);
     }
 }

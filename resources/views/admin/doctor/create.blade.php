@@ -43,7 +43,7 @@
             <img src="{{asset('svg/medicine_b1ol.svg')}}" width="500" height="400">
         </div>
     </div>
-    <form role="form" method="post" action="{{route('doctor.store')}} ">
+    <form role="form" method="post" action="{{route('admin.doctor.store')}} ">
         @csrf
         <div class="row  h-100 justify-content-center align-items-center">
             <div class="col-12">
@@ -185,7 +185,7 @@
                                     <div id='S1' class="col-md-6">
                                         <div class="form-group">
                                             <label>Specialty</label>
-                                            <select class="select2" multiple="multiple" name="specialty[]" data-placeholder="Select a specialty" style="width: 100%;">
+                                            <select class="select2"  name="specialty" data-placeholder="Select a specialty" style="width: 100%;">
                                                 @foreach( $specialties as $specialty)
                                                 <option value="{{$specialty->id}}"> {{$specialty->namespec}}</option>
                                                 @endforeach
@@ -210,7 +210,52 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputName">Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-dollar-sign"></i></span>
+                                                </div>
+                                                <input type="number"  name="price"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Days</label>
+                                            <select class="select2" multiple="multiple" name="days[]"  style="width: 100%;">
+                                                <option selected>Sunday</option>
+                                                <option selected>Monday</option>
+                                                <option selected>Tuesday</option>
+                                                <option selected>Wednesday</option>
+                                                <option selected>Thursday</option>
+                                                <option>Friday</option>
+                                                <option>Saturday</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="inputName">Morning Work Times</label>
+                                        <div class="input-group">
 
+                                            <input type="time"  name="MWTStart"
+                                                   class="form-control" value="08:00">
+                                            <input type="time"  name="MWTEnd"
+                                                   class="form-control" value="12:00">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="inputName">Evening Work Times</label>
+                                        <div class="input-group">
+                                            <input type="time"  name="EWTStart"
+                                                   class="form-control" value="14:00">
+                                            <input type="time"  name="EWTEnd"
+                                                   class="form-control" value="17:00">
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputStatus">Establishment in our platform</label>

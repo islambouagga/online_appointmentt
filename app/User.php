@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 Relation::morphMap([
     'Admin'=>Admin::class
@@ -20,7 +21,7 @@ Relation::morphMap([
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable ,HasApiTokens ;
 
     /**
      * The attributes that are mass assignable.

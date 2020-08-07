@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Redirect;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +54,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+
+        if ($exception instanceof AuthorizationException) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Unauthorized.'], 403);
+            }
+            // TODO: Redirect to error page instead
+            // Redirect user from here whatever the route you want.
+            return Redirect::back();
+        }
         return parent::render($request, $exception);
     }
 }

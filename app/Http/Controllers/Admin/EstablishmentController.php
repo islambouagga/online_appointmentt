@@ -25,6 +25,7 @@ class EstablishmentController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdmin');
         $establishments=Establishment::all();
         return  view('admin.establishment.index')->with('establishments',$establishments);
     }
@@ -36,6 +37,7 @@ class EstablishmentController extends Controller
      */
     public function create()
     {
+        $this->authorize('isAdmin');
 
         return view('admin.establishment.create');
     }
@@ -48,6 +50,7 @@ class EstablishmentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('isAdmin');
 //        dd($request->all());
         $this->validateRequest($request);
 
@@ -63,6 +66,7 @@ class EstablishmentController extends Controller
      */
     public function show(Establishment $establishment)
     {
+        $this->authorize('isAdmin');
 
         return view('admin.establishment.show')->with('establishment',$establishment);
     }
@@ -87,6 +91,7 @@ class EstablishmentController extends Controller
      */
     public function update(Request $request, Establishment $establishment)
     {
+        $this->authorize('isAdmin');
 //        dd($request->all());
         $this->validateRequest($request);
         $establishment->update($request->all());

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDoctorSpecialtyTable extends Migration
+class CreateDaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateDoctorSpecialtyTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctor_specialty', function (Blueprint $table) {
+        Schema::create('days', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('doctor_id');
+            $table->string('day');
+            $table->unsignedBigInteger('doctor_id')->nullable();
             $table->foreign('doctor_id')->references('id')->on('doctors');
-            $table->unsignedBigInteger('specialty_id');
-            $table->foreign('specialty_id')->references('id')->on('specialties');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateDoctorSpecialtyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctor_specialty');
+        Schema::dropIfExists('days');
     }
 }

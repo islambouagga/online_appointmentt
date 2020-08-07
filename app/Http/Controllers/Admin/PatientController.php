@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Patient;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
@@ -17,8 +19,18 @@ class PatientController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdminOrAuthor');
         $patients=Patient::all();
-        return view('admin.patient.index')->with('patients',$patients);
+        $doctor  = Doctor::findOrFail(Auth::user()->usertable_id);
+//        dd($doctor->patients);
+        if (Auth::user()->usertable_type == 'Admin') {
+            return view('admin.patient.index')->with('patients',$patients);
+        }
+
+        elseif (Auth::user()->usertable_type == 'Doctor') {
+            return view('admin.patient.index')->with('patients',$doctor->patients);
+        }
+
     }
 
     /**
@@ -27,7 +39,7 @@ class PatientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    { $this->authorize('isAdminOrAuthor');
         return view('admin.patient.create');
     }
 
@@ -39,6 +51,7 @@ class PatientController extends Controller
      */
     public function store(Request $request,Patient $patient)
     {
+        $this->authorize('isAdminOrAuthor');
 //        dd($request->all());
         $this->validateRequest($request);
         $patient->Pfname=$request->Pfname;
@@ -65,7 +78,8 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        //
+        $this->authorize('isAdminOrAuthor');
+        return view('admin.patient.show')->with('patient',$patient);
     }
 
     /**>
@@ -76,6 +90,7 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
+        $this->authorize('isAdminOrAuthor');
         //
     }
 
@@ -88,6 +103,7 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
+        $this->authorize('isAdminOrAuthor');
         //
     }
 
@@ -99,6 +115,7 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
+        $this->authorize('isAdminOrAuthor');
         //
     }
 
@@ -106,7 +123,7 @@ class PatientController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users',
+            'email' => 'required|string|email|max:191',
             'password' => 'required|string|min:6'
         ];
         $this->validate($request, $rules);

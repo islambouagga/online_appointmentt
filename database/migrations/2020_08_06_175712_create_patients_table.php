@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->date('Pbirthday');
             $table->string('Ptel');
             $table->string('Psexe');
-            $table->string('Paderess');
+            $table->string('Paderess')->nullable();
             $table->timestamps();
         });
     }

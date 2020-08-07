@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title>AdminLTE 3 | Starter</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="icon" href="{{asset('favicon.png')}}">
     <!-- Font Awesome Icons -->
@@ -33,10 +33,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="{{asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{asset('plugins/fullcalendar/main.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/fullcalendar-daygrid/main.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/fullcalendar-timegrid/main.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/fullcalendar-bootstrap/main.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.0.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.0.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.0.0/main.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.0.0/main.min.css"/>
+
 
     <style>
         /* Set the size of the div element that contains the map */
@@ -56,10 +71,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+    @livewireStyles
 </head>
+@can('isAdmin')
 <body class="hold-transition sidebar-mini">
+@endcan
+@can("isAuthor")
+    <body class="hold-transition layout-top-nav">
+@endcan
 <div class="wrapper">
-
+@can('isAdmin')
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
@@ -75,17 +96,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
         </ul>
 
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-3">
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
+
+        <div style="position: absolute;right: 81px;">
+            <a class="dropdown-item" href="{{ route('logout') }}"
+               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                {{ __('Logout') }} <i class="fas fa-sign-out-alt" ></i></a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+        </div>
     </nav>
     <!-- /.navbar -->
 
@@ -106,7 +126,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+{{--                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>--}}
+                    <a href="#" class="d-block">aaa</a>
                 </div>
             </div>
 
@@ -115,6 +136,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
+{{--                    @can('isAdmin')--}}
                     <li class="nav-item has-treeview menu-open ">
                         <a href="#" class="nav-link active  ">
                             <i class="nav-icon fas fa-hospital-alt  sunflower"></i>
@@ -138,6 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         </ul>
                     </li>
+{{--                    @endcan--}}
                     <li class="nav-item has-treeview menu-open">
                         <a href="#" class="nav-link active  ">
                             <i class="nav-icon  fas fa-user-md"></i>
@@ -186,12 +209,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li>
                     <li class="nav-item has-treeview menu-open">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
+
+                        <a href="{{url('appointment?id='.Auth::user()->usertable_id)}}" class="nav-link active">
                             <i class="nav-icon fas fa-calendar-check"></i>
                             <p>
                                 Appointment
                             </p>
                         </a>
+
                     </li>
                 </ul>
             </nav>
@@ -199,7 +224,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- /.sidebar -->
     </aside>
+@endcan
 
+    @can("isAuthor")
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+
+            <div class="container" style="padding-left: 25%">
+                <a href="{{route('home')}}" class="brand-link">
+                    <img src="{{asset('dist/img/logo.png')}}" alt="Medico Logo" class="brand-image img-circle elevation-3"
+                         style="opacity: .8">
+                    <span class="brand-text font-weight-light">Medico</span>
+                </a>
+
+
+                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <!-- Left navbar links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('appointment?id='.Auth::user()->usertable_id)}}" class="nav-link">Dashbord</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('patient.index')}}" class="nav-link">Patient's List</a>
+                        </li>
+
+
+                    </ul>
+
+                    <!-- SEARCH FORM -->
+                </div>
+
+            </div>
+
+        </nav>
+    @endcan
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -256,6 +316,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<!-- jQuery UI -->
+<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
@@ -282,6 +344,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 <!-- Bootstrap Switch -->
 <script src="{{asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('plugins/fullcalendar/main.min.js')}}"></script>
+<script src="{{asset('plugins/fullcalendar-daygrid/main.min.js')}}"></script>
+<script src="{{asset('plugins/fullcalendar-timegrid/main.min.js')}}"></script>
+<script src="{{asset('plugins/fullcalendar-interaction/main.min.js')}}"></script>
+<script src="{{asset('plugins/fullcalendar-bootstrap/main.min.js')}}"></script>
 
 <script>
     $(function () {
@@ -388,6 +457,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var marker = new google.maps.Marker({position: uluru, map: map});
     }
 </script>
+
 <!--Load the API from the specified URL
 * The async attribute allows the browser to render the page while the API loads
 * The key parameter will contain your own API key (which is not needed for this tutorial)
@@ -396,5 +466,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhTHfjz0i7Zt5d1ptwnuOIRdur-ilAvr4&callback=initMap">
 </script>
+@livewireScripts
+@livewireCalendarScripts
 </body>
 </html>

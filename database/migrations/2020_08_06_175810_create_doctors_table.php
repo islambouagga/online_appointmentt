@@ -17,10 +17,18 @@ class CreateDoctorsTable extends Migration
             $table->id();
             $table->string('Dfname');
             $table->string('Dtel');
+            $table->string('Price');
+            $table->string('Padresse');
+            $table->time('MWTStart');
+            $table->time('MWTEnd');
+            $table->time('EWTStart');
+            $table->time('EWTEnd');
             $table->text('Dexpertize');
             $table->text('Ddiploma');
             $table->unsignedBigInteger('establishment_id')->nullable();
             $table->foreign('establishment_id')->references('id')->on('establishments');
+            $table->unsignedBigInteger('specialty_id');
+            $table->foreign('specialty_id')->references('id')->on('specialties');
             $table->timestamps();
         });
     }
