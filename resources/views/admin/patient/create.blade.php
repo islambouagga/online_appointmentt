@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputStatus">Gneder</label>
+                                            <label for="inputStatus">Gander</label>
                                             <select class="form-control select2 @error('Psexe') is-invalid @enderror"
                                                     name="Psexe">
                                                 <option selected disabled>Select one</option>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Admin;
 use App\Http\Controllers\Controller;
+use App\Patient;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -67,14 +68,19 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 //        dd($data);
-        $admin=new Admin();
-       $admin->save();
+        $patient=Patient::create([
+            'Pfname' => $data['Pfname'],
+            'Ptel' => $data['Ptel'],
+            'Psexe' => $data['Psexe'],
+            'Pbirthday' => $data['Pbirthday'],
+        ]);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'usertable_type'=> $data['usertable_type'],
-            'usertable_id'=> $admin->id,
+            'usertable_id'=> $patient->id,
             'approved' =>  $data['approved'],
         ]);
     }

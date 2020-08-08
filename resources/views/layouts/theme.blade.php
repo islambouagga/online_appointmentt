@@ -3,10 +3,10 @@
 
 <head>
     <!-- Required meta tags -->
-    <link rel="icon" href="{{asset('favicon.png')}}">
+    <link rel="icon" href="{{asset('medapp.png')}}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Medico</title>
+    <title>Med App</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <!-- animate CSS -->
@@ -82,7 +82,7 @@
         <div class="row align-items-center">
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg navbar-white">
-                    <a class="navbar-brand" href="{{route('welcome')}}"> <img src="{{asset('img/logo.png')}}"
+                    <a class="navbar-brand" href="{{route('welcome')}}"> <img style="height: 80px" src="{{asset('dist/img/medapp.png')}}"
                                                                               alt="logo"> </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
