@@ -24,23 +24,24 @@
                 <div class="card-header">
                     <h3 class="card-title">Patient's List</h3>
                 </div>
+
+
                 <!-- /.card-header -->
                 <div class="card-body">
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Telephone</th>
                             <th>Edit</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($patients as $patient )
-                            @foreach($patient->users as $user)
+
                                 <tr>
-                                    <td>{{$user->name}} {{$patient->Pfname}}</td>
-                                    <td>{{$user->email}}</td>
+                                    <td>{{$patient->Pfname}}</td>
+
                                     <td>{{$patient->Ptel}}</td>
                                     <td class="row">
 
@@ -69,7 +70,7 @@
 {{--                                        @endcan--}}
                                     </td>
                                 </tr>
-                            @endforeach
+
                         @endforeach
                         </tbody>
                     </table>

@@ -115,13 +115,13 @@
                     </div>
                 @endguest
                 @can('isUser' )
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="form-group">
-                                @livewire('search-bar')
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="panel panel-default">--}}
+{{--                        <div class="panel-body">--}}
+{{--                            <div class="form-group">--}}
+{{--                                @livewire('search-bar')--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 @endcan
             </div>
         </div>
@@ -236,7 +236,7 @@
                                                             <span class="input-group-text"><i
                                                                     class="fas fa-map-marker-alt"></i></span>
                                                     </div>
-                                                    <input type="number" id="ratee" name="ratee"
+                                                    <input type="number" min="0" max="5" id="ratee" name="ratee"
                                                            class="form-control ">
                                                 </div>
                                             </div>
@@ -285,7 +285,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Holidays</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Appointment</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

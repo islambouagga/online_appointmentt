@@ -224,6 +224,7 @@ else{
 
     public function postappointment(Request $request, Appointment $appointment)
     {
+
 //        dd($request->all());
         $appointment->title = $request->title;
         $appointment->backgroundColor = $request->backgroundColor;
@@ -238,10 +239,22 @@ else{
         }
 
         $doctor = Doctor::findOrFail($request->doctor_id);
-        if (in_array("patient_id",$request->all())){
+        if ($request->patient_id != "000"){
+//            dd('in if ');
             $patient =  Patient::findOrFail($request->patient_id);
             $appointment->patient_id=$patient->id;
             $appointment->patient()->associate($patient);
+        }elseif($request->patient_id == "000"){
+//            dd('in else');
+            $patient =  new Patient();
+            $patient->Pfname=$request->Pfname;
+            $patient->Ptel= $request->Ptel;
+            $patient->Psexe=$request->Psexe;
+            $patient->Pbirthday=$request->Pbirthday;
+            $patient->save();
+            $appointment->patient_id=$patient->id;
+            $appointment->patient()->associate($patient);
+            $patient->doctors()->attach($doctor->id);
         }
 
 
@@ -264,6 +277,7 @@ else{
     {
         $this->authorize('isAdminOrAuthor');
         $p = $appointment->patient()->first();
+//        dd($p);
         $date =  strtotime($appointment->start);
         $Time22 = date("Y-m-d", strtotime('+0 minutes', $date));
 

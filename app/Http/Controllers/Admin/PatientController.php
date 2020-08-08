@@ -42,7 +42,7 @@ class PatientController extends Controller
             }
             elseif (Auth::user()->usertable_type == 'Doctor') {
                 $doctor  = Doctor::findOrFail(Auth::user()->usertable_id);
-//                dd('in else');
+//                dd($doctor->patients);
                 return view('admin.patient.index')->with('patients',$doctor->patients);
             }
         }

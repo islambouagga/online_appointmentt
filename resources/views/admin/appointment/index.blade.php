@@ -108,7 +108,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }} <i class="fas fa-sign-out-alt" ></i></a>
+                        {{ __('Logout') }} <i class="fas fa-sign-out-alt"></i></a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
@@ -160,22 +160,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- the events -->
                                                     <div id="external-events">
                                                         <div class="external-event bg-success">Bussy</div>
-                                                        <input type="hidden"  id="statu" name="statu"
+                                                        <input type="hidden" id="statu" name="statu"
                                                                value="approved">
                                                     </div>
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
-                                        <!-- /.card -->
+                                            <!-- /.card -->
 
 
-                                                    {{--                                        <button id="add-new-event" type="button" class="btn btn-primary">Add</button>--}}
+                                            {{--                                        <button id="add-new-event" type="button" class="btn btn-primary">Add</button>--}}
                                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#exampleModal">Add Holiday</button>
-                                            <button type="button" class="btn btn-secondary"data-toggle="modal"
-                                                    data-target="#exampleModal1">Add Appointment</button>
+                                                    data-target="#exampleModal">Add Holiday
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                                    data-target="#exampleModal1">Add Appointment
+                                            </button>
                                         @endcan
-                                            @can('isUser')
+                                        @can('isUser')
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h4 class="card-title">Draggable Events</h4>
@@ -188,8 +190,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
-                                            @endcan
-                                        <input type="hidden"  id="doctor_id" name="doctor_id"
+                                        @endcan
+                                        <input type="hidden" id="doctor_id" name="doctor_id"
                                                value="{{$doctor_id}}">
                                     </div>
                                 </div>
@@ -232,46 +234,49 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <tbody>
                                         @foreach($appointments as $appointment )
 
-                                                <tr>
-                                                    <td>{{$appointment->title}}</td>
-                                                    <td>{{$appointment->start}}</td>
-                                                    <td>
+                                            <tr>
+                                                <td>{{$appointment->title}}</td>
+                                                <td>{{$appointment->start}}</td>
+                                                <td>
                                                         <span class="badge @if($appointment->statu == "approved") badge-success
 
                                                           @elseif($appointment->statu == "request") badge-warning
                                         @elseif($appointment->statu == "cancel") badge-danger
 
                                             @elseif($appointment->statu == "changed") badge-info @endif ">{{$appointment->statu}}</span>
-                                                        </td>
-                                                    @foreach($appointment->patient()->get() as $a)
+                                                </td>
+                                                @foreach($appointment->patient()->get() as $a)
 
-                                                        <td>{{$a->Pfname}}</td>
-                                                    @endforeach
-                                                    <td class="row">
-                                                        <form role="form" method="post"
-                                                              action="{{route('appointment.update',$appointment->id)}}">
-                                                            @method('PATCH')
-                                                            @csrf
-                                                            <input type="hidden" name="statu" value="approved">
-                                                            <button type="submit" class="btn"><i class="fas fa-check red"
-                                                                                                 style="color: green"></i></button>
-                                                        </form>
-                                                        |
-                                                        <a class="btn" href="{{route('appointment.show',$appointment->id)}}"><i
-                                                                class="fas fa-edit"
-                                                              ></i></a>
-                                                        |
+                                                    <td>{{$a->Pfname}}</td>
+                                                @endforeach
+                                                <td class="row">
+                                                    <form role="form" method="post"
+                                                          action="{{route('appointment.update',$appointment->id)}}">
+                                                        @method('PATCH')
+                                                        @csrf
+                                                        <input type="hidden" name="statu" value="approved">
+                                                        <button type="submit" class="btn"><i class="fas fa-check red"
+                                                                                             style="color: green"></i>
+                                                        </button>
+                                                    </form>
+                                                    |
+                                                    <a class="btn"
+                                                       href="{{route('appointment.show',$appointment->id)}}"><i
+                                                            class="fas fa-edit"
+                                                        ></i></a>
+                                                    |
 
-                                                        <form role="form" method="post"
-                                                              action="{{route('appointment.update',$appointment->id)}}">
-                                                            @method('PATCH')
-                                                            @csrf
-                                                            <input type="hidden" name="statu" value="cancel">
-                                                            <button type="submit" class="btn"><i class="fas fa-times red"
-                                                                                                 style="color: red"></i></button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
+                                                    <form role="form" method="post"
+                                                          action="{{route('appointment.update',$appointment->id)}}">
+                                                        @method('PATCH')
+                                                        @csrf
+                                                        <input type="hidden" name="statu" value="cancel">
+                                                        <button type="submit" class="btn"><i class="fas fa-times red"
+                                                                                             style="color: red"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
 
                                         @endforeach
                                         </tbody>
@@ -292,7 +297,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
 
 
-
     <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -302,7 +306,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>    <form>
+                </div>
+                <form>
                     <div class="modal-body">
 
                         <div class="form-group">
@@ -311,7 +316,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                 </div>
-                                <input type="date"  id="start" name="start"
+                                <input type="date" id="start" name="start"
                                        class="form-control ">
                             </div>
                         </div>
@@ -321,19 +326,76 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                             </select>
                         </div>
-                        @if(\Illuminate\Support\Facades\Auth::check())
-                            <input type="hidden"  id="patient_id" name="patient_id"
-                                   value="{{Auth::user()->usertable_id}}">
-                        @endif
+                        <div class="form-group">
+                            <label for="inputName">Patient Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-user-md"></i></span>
+                                </div>
+                                <input type="text" id="Pfname" name="Pfname"
+                                       class="form-control @error('Pfname') is-invalid @enderror">
+                                @error('Pfname')
+                                <span class="invalid-feedback">
+                                       {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Telephone</label>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input type="text" name="Ptel" id="Ptel"
+                                       class="form-control @error('Ptel') is-invalid @enderror"
+                                       data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']"
+                                       data-mask>
+                                @error('Ptel')
+                                <span class="invalid-feedback">
+                                       {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            <label for="inputStatus">Gander</label>
+                            <select class="form-control select2  @error('Psexe') is-invalid @enderror"
+                                 id="Psexe"   name="Psexe">
+                                <option selected disabled>Select one</option>
+                                <option value="Male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            @error('Psexe')
+                            <span class="invalid-feedback">
+                                       {{ $message }}
+                                    </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Birthday</label>
+
+                                <input type="date" id="Pbirthday" name="Pbirthday" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+
+                        </div>
 
 
-                        <input type="hidden"  id="test" name="test"
+
+
+                        <input type="hidden" id="patient_id" name="patient_id"
+                               value="000">
+
+
+                        <input type="hidden" id="test" name="test"
                                value="app">
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="add-new-event" type="button"  class="btn btn-primary">Save changes</button>
+                        <button id="new-event" type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -349,8 +411,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>    <form>
-                <div class="modal-body">
+                </div>
+                <form>
+                    <div class="modal-body">
 
                         <div class="form-group">
                             <label for="inputEstimatedBudget">Date and Time start</label>
@@ -358,29 +421,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                 </div>
-                                <input type="datetime-local"  id="start2" name="start"
+                                <input type="datetime-local" id="start2" name="start"
                                        class="form-control ">
                             </div>
                         </div>
-                    <input type="hidden"  id="test" name="test"
-                           value="holi">
+                        <input type="hidden" id="test" name="test"
+                               value="holi">
                         <div class="form-group">
                             <label for="inputEstimatedBudget">Date and Time end</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                 </div>
-                                <input type="datetime-local"  id="end2" name="end"
+                                <input type="datetime-local" id="end2" name="end"
                                        class="form-control ">
                             </div>
                         </div>
 
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="add-new-event" type="button"  class="btn btn-primary">Save changes</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="add-new-event" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -614,12 +677,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
         events = 0;
         var doctor_id = $('#doctor_id').val();
+        var patient_id = $('#patient_id').val();
+
         var statu = $('#statu').val();
         var statu2 = $('#statu2').val();
-        var test =  $('#test').val();
+        var test = $('#test').val();
         console.log(doctor_id)
         $.ajax({
-            url: 'getappointments/'+ doctor_id,
+            url: 'getappointments/' + doctor_id,
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -661,16 +726,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         borderColor: '#00ff00',
                         start: dateee.getFullYear() + "-" + (dateee.getMonth() + 1) + "-" + dateee.getDate() + " " + dateee.getHours() + ":" + dateee.getMinutes() + ":" + dateee.getSeconds(),
                         end: dateee.getFullYear() + "-" + (dateee.getMonth() + 1) + "-" + dateee.getDate() + " " + dateee.getHours() + ":" + dateee.getMinutes() + ":" + dateee.getSeconds(),
-                        doctor_id : doctor_id,
-                        allDay : true,
-                        statu:statu
+                        doctor_id: doctor_id,
+                        allDay: true,
+                        statu: statu
                     },
                     cache: false,
                     success: function (dataResult) {
                         console.log(dataResult);
                         var dataResult = JSON.parse(dataResult);
                         if (dataResult.statusCode == 200) {
-                            window.location = "/appointment?id="+doctor_id;
+                            window.location = "/appointment?id=" + doctor_id;
                         } else if (dataResult.statusCode == 201) {
                             alert("Error occured !");
                         }
@@ -707,107 +772,121 @@ scratch. This page gets rid of all links and provides the needed markup only.
         console.log(test)
         console.log("ssss")
         console.log(statu2)
-            if (test==='app'){
-                $('#add-new-event').click(function (e) {
-                    console.log('2222')
-                    var start = $('#start').val();
-                    var end = $('#time2').val();
-                    var plus =  start+" "+end
-                    var daystart = new Date(plus)
-                    var dayend = moment(new Date(plus)).add(30, 'm').toDate()
-                    var jArray =@json($arrdays);
-                    var weekday = new Array(7);
-                    weekday[0] = "Sunday";
-                    weekday[1] = "Monday";
-                    weekday[2] = "Tuesday";
-                    weekday[3] = "Wednesday";
-                    weekday[4] = "Thursday";
-                    weekday[5] = "Friday";
-                    weekday[6] = "Saturday";
-                    console.log('statu')
-                    console.log(statu)
-                    console.log('start')
-                    console.log(start)
-                    console.log('time2')
-                    console.log(end)
-                    console.log('plus')
-                    console.log(plus)
-                    console.log("daystart")
-                    console.log(daystart)
-                    console.log(weekday[daystart.getDay()])
-                    console.log("daysend")
-                    console.log(moment(new Date(plus)).add(30, 'm').toDate())
-                    console.log(jArray)
-                    if(jArray.includes(weekday[daystart.getDay()])){
-                        $.ajax({
-                            url: "/postappointment",
-                            type: "POST",
-                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content'), '_method': 'patch'},
-                            data: {
-                                title: "Appointment",
-                                backgroundColor: '#8f8622',
-                                borderColor: '#8f8622',
-                                start: daystart.getFullYear() + "-" + (daystart.getMonth() + 1) + "-" + daystart.getDate() + " " + daystart.getHours() + ":" + daystart.getMinutes() + ":" + daystart.getSeconds(),
-                                end: dayend.getFullYear() + "-" + (dayend.getMonth() + 1) + "-" + dayend.getDate() + " " + dayend.getHours() + ":" + dayend.getMinutes() + ":" + dayend.getSeconds() ,
-                                allDay : false,
-                                doctor_id : doctor_id,
-                                statu:statu
-                            },
-                            cache: false,
-                            success: function (dataResult) {
-                                console.log(dataResult);
-                                var dataResult = JSON.parse(dataResult);
-                                if (dataResult.statusCode == 200) {
-                                    window.location = "/appointment?id="+doctor_id;
-                                } else if (dataResult.statusCode == 201) {
-                                    alert("Error occured !");
-                                }
 
-                            }
-                        });
-                    }else {
-                        alert('--------')
-                    }
+        $('#new-event').click(function (e) {
+            console.log("test")
+            console.log(test)
+            console.log('2222')
+            var start = $('#start').val();
+            var end = $('#time2').val();
+            var Pfname = $('#Pfname').val();
+            var Ptel = $('#Ptel').val();
+            var Psexe = $('#Psexe').val();
+            var Pbirthday = $('#Pbirthday').val();
+            var plus = start + " " + end
+            var daystart = new Date(plus)
+            var dayend = moment(new Date(plus)).add(30, 'm').toDate()
+            var jArray =@json($arrdays);
+            var weekday = new Array(7);
+            weekday[0] = "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+            console.log('statu')
+            console.log(statu)
+            console.log('start')
+            console.log(start)
+            console.log('time2')
+            console.log(end)
+            console.log('plus')
+            console.log(plus)
+            console.log("daystart")
+            console.log(daystart)
+            console.log(weekday[daystart.getDay()])
+            console.log("daysend")
+            console.log(moment(new Date(plus)).add(30, 'm').toDate())
+            console.log(jArray)
+            console.log(Pfname)
+            console.log(Pbirthday)
+            console.log(Psexe)
+            console.log(Ptel)
+            if (jArray.includes(weekday[daystart.getDay()])) {
+                console.log("11111111")
 
-                })
-
-            }else {
-                $('#add-new-event').click(function (e) {
-                    console.log('kdkj')
-                    var start = $('#start2').val();
-                    var end = $('#end2').val();
-                    console.log(start)
-                    console.log(end)
-                    $.ajax({
-                        url: "/postappointment",
-                        type: "POST",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content'), '_method': 'patch'},
-                        data: {
-                            title: "Holidays",
-                            backgroundColor: '#228f3b',
-                            borderColor: '#228f3b',
-                            start: start,
-                            end: end,
-                            allDay : true,
-                            doctor_id : doctor_id,
-                            statu:statu
-                        },
-                        cache: false,
-                        success: function (dataResult) {
-                            console.log(dataResult);
-                            var dataResult = JSON.parse(dataResult);
-                            if (dataResult.statusCode == 200) {
-                                window.location = "/appointment?id="+doctor_id;
-                            } else if (dataResult.statusCode == 201) {
-                                alert("Error occured !");
-                            }
-
+                $.ajax({
+                    url: "/postappointment",
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content'), '_method': 'patch'},
+                    data: {
+                        title: "Appointment",
+                        backgroundColor: '#8f8622',
+                        borderColor: '#8f8622',
+                        start: daystart.getFullYear() + "-" + (daystart.getMonth() + 1) + "-" + daystart.getDate() + " " + daystart.getHours() + ":" + daystart.getMinutes() + ":" + daystart.getSeconds(),
+                        end: dayend.getFullYear() + "-" + (dayend.getMonth() + 1) + "-" + dayend.getDate() + " " + dayend.getHours() + ":" + dayend.getMinutes() + ":" + dayend.getSeconds(),
+                        allDay: false,
+                        doctor_id: doctor_id,
+                        patient_id: patient_id,
+                        statu: statu,
+                        Pfname : Pfname,
+                        Pbirthday : Pbirthday,
+                        Ptel : Ptel,
+                        Psexe : Psexe
+                    },
+                    cache: false,
+                    success: function (dataResult) {
+                        console.log(dataResult);
+                        var dataResult = JSON.parse(dataResult);
+                        if (dataResult.statusCode == 200) {
+                            window.location = "/appointment?id=" + doctor_id;
+                        } else if (dataResult.statusCode == 201) {
+                            alert("Error occured !");
                         }
-                    });
-                })
+
+                    }
+                });
+            } else {
+                alert('--------')
             }
 
+        })
 
+
+        $('#add-new-event').click(function (e) {
+            console.log('kdkj')
+            var start = $('#start2').val();
+            var end = $('#end2').val();
+            console.log(start)
+            console.log(end)
+            $.ajax({
+                url: "/postappointment",
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content'), '_method': 'patch'},
+                data: {
+                    title: "Holidays",
+                    backgroundColor: '#228f3b',
+                    borderColor: '#228f3b',
+                    start: start,
+                    end: end,
+                    allDay: true,
+                    doctor_id: doctor_id,
+                    statu: statu
+                },
+                cache: false,
+                success: function (dataResult) {
+                    console.log(dataResult);
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        window.location = "/appointment?id=" + doctor_id;
+                    } else if (dataResult.statusCode == 201) {
+                        alert("Error occured !");
+                    }
+
+                }
+            });
+        })
 
 
     })
@@ -834,13 +913,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         weekday[6] = "Saturday";
         $('input[name="start"]').on('change', function () {
             var day = $(this).val();
-            var  d = new Date(day)
+            var d = new Date(day)
             console.log(weekday[d.getDay()])
 
             if (weekday[d.getDay()]) {
                 // console.log('admin/inscription/getsessions/'+id_formation)
                 $.ajax({
-                    url: '/appointment/getdays/'+doctor_id+'/' + weekday[d.getDay()],
+                    url: '/appointment/getdays/' + doctor_id + '/' + weekday[d.getDay()],
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
