@@ -26,6 +26,8 @@ class CreateAppointmentsTable extends Migration
             $table->foreign('doctor_id')->references('id')->on('doctors');
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->foreign('patient_id')->references('id')->on('patients');
+            $table->unsignedBigInteger('establishment_id')->nullable();
+            $table->foreign('establishment_id')->references('id')->on('establishments');
             $table->timestamps();
         });
     }

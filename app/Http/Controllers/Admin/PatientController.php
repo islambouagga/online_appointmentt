@@ -42,8 +42,24 @@ class PatientController extends Controller
             }
             elseif (Auth::user()->usertable_type == 'Doctor') {
                 $doctor  = Doctor::findOrFail(Auth::user()->usertable_id);
+$pp=[];
+                foreach ($doctor->appointments as $appointment){
+                    if ($appointment->patient){
+
+
+//                        $pp[] = $appointment->patient->id;
+                        if (in_array($appointment->patient, $pp)) {
+                            $pp = \array_diff($pp, [$appointment->patient]);
+                        }else{
+                            $pp[] = $appointment->patient;
+                        }
+                    }
+                }
+//                dd($pp);
 //                dd($doctor->patients);
-                return view('admin.patient.index')->with('patients',$doctor->patients);
+
+//                dd($doctor->patients);
+                return view('admin.patient.index')->with('patients',$pp);
             }
         }
 

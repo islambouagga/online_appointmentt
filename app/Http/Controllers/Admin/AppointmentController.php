@@ -239,13 +239,19 @@ else{
         }
 
         $doctor = Doctor::findOrFail($request->doctor_id);
+        $etbalisment = Establishment::findOrFail($doctor->establishment_id);
+
+
         if ($request->patient_id != "000"){
-//            dd('in if ');
+
             $patient =  Patient::findOrFail($request->patient_id);
+
             $appointment->patient_id=$patient->id;
             $appointment->patient()->associate($patient);
+            $appointment->establishment_id=$etbalisment->id;
+            $appointment->establishment()->associate($etbalisment);
         }elseif($request->patient_id == "000"){
-//            dd('in else');
+
             $patient =  new Patient();
             $patient->Pfname=$request->Pfname;
             $patient->Ptel= $request->Ptel;
@@ -254,7 +260,8 @@ else{
             $patient->save();
             $appointment->patient_id=$patient->id;
             $appointment->patient()->associate($patient);
-            $patient->doctors()->attach($doctor->id);
+            $appointment->establishment_id=$etbalisment->id;
+            $appointment->establishment()->associate($etbalisment);
         }
 
 
@@ -329,9 +336,7 @@ else{
           $doctor =  Doctor::findOrFail($appointment->doctor_id);
           $etbalisment = Establishment::findOrFail($doctor->establishment_id);
           $patient = Patient::findOrFail($appointment->patient_id);
-          $patient->doctors()->attach($doctor->id);
           $patient->establishment()->attach($etbalisment->id);
-
         }
 
         return redirect('/appointment?id='.$appointment->doctor_id);
